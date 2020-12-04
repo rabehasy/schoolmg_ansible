@@ -2,7 +2,7 @@
 
 Run playbook
 
-Create file http/commun/inventaire.ini
+Create file commun/inventaire.ini inspiring from commun/inventaire.ini-dist
 
 
 Go to http/test
