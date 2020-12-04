@@ -2,6 +2,9 @@
 
 Run playbook
 
+Create file http/commun/inventaire.ini
+
+
 Go to http/test
 
 ```
