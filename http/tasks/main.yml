@@ -1,0 +1,28 @@
+---
+- name: "setup-folders-permissions"
+  include_tasks: 1-setup-folders-permissions.yml
+
+- name: "setup-env-local" 
+  include_tasks: 2-setup-env-local.yml
+
+- name: "database"   
+  include_tasks: 3-database.yml
+
+- name: "clear cache app"   
+  include_tasks: 5-clearcache.yml  
+  
+- name: "Create vhosts"
+  template:
+    src: "templates/vhost.conf.j2"   
+    dest: "/etc/apache2/sites-available/{{app}}.schoolmg.app.conf" 
+  notify: "apache2 reload"
+
+- name: Check that our config is valid
+  command: apache2ctl -t
+
+  # Enable
+- name: "a2ensite" 
+  shell: |
+    a2ensite {{app}}.schoolmg.app.conf
+  notify: "apache2 reload"
+ 

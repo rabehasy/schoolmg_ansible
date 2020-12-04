@@ -1,0 +1,7 @@
+---
+
+# Create database and schema with symfony doctrine
+- name: "Create database with bin/console cmd"
+  shell: |
+    php {{app_path}}/bin/console doctrine:database:create   
+    php {{app_path}}/bin/console doctrine:schema:update --force   

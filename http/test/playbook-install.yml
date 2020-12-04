@@ -1,0 +1,9 @@
+---
+- name: "Installation app"
+  hosts: "kimsufi"
+  gather_facts: no
+  tags: "apache"
+  roles:
+    - role: "../../http"
+  vars_files: 
+    - ../../commun/vars/mysql_password.yml 

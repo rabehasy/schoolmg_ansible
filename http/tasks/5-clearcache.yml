@@ -1,0 +1,6 @@
+---
+
+- name: "Clear cache app"
+  shell: |
+    php {{app_path}}/bin/console cache:clear  
+    chown -R www-data: {{app_path}}/var

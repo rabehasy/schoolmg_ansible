@@ -1,0 +1,54 @@
+---
+
+# Folders and symlink and permissions
+- name: "Dossier"
+  file:
+    path: "{{app_path}}"
+    owner: "web"
+    group: "web"
+    state: directory
+
+- name: "liens symboliques"
+  shell: |
+    cd {{app_path}}
+    ln -sf {{skeleton_path}}/current/vendor ./vendor
+    ln -sf {{skeleton_path}}/current/templates ./templates
+    ln -sf {{skeleton_path}}/current/translations ./translations
+    ln -sf {{skeleton_path}}/current/src ./src
+    ln -sf {{skeleton_path}}/current/config ./config
+    ln -sf {{skeleton_path}}/current/.env .env
+
+- name: "Creation dossiers"  
+  shell: |
+    mkdir -p {{app_path}}/bin
+    mkdir -p {{app_path}}/var/{cache,log}
+    mkdir -p {{app_path}}/public
+
+- name: "liens symboliques public/"
+  shell: |
+    cd {{app_path}}/public
+    ln -sf {{skeleton_path}}/current/public/.htaccess .htaccess
+    ln -sf {{skeleton_path}}/current/public/humans.txt humans.txt
+    ln -sf {{skeleton_path}}/current/public/robots.txt robots.txt
+    mkdir -p /home/web/schoolmg.app/apps/documents/{{app}}-{{branch}}/{cache,learner,tmp,trash}
+    ln -sf /home/web/schoolmg.app/apps/documents/{{app}}-{{branch}} ./uploads
+    ln -sf {{skeleton_src_path}}/public/build ./build
+    cp {{skeleton_src_path}}/public/index.php index.php
+
+- name: "Permissions"
+  shell: |
+    chown -R web: {{app_path}}
+    chown -R www-data: {{app_path}}/var
+    chmod -R 777 {{app_path}}/var
+    chown -R www-data: /home/web/schoolmg.app/apps/documents/{{app}}-{{branch}}/*
+
+# bin folder
+- name: "Copy content of bin/* folder"
+  copy:
+    src: "{{skeleton_src_path}}/bin/{{item}}"
+    dest: "{{app_path}}/bin/"
+    owner: "web"
+    group: "web"
+    remote_src: yes
+  with_items:
+    ['console','phpunit'] 

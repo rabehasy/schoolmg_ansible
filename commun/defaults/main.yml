@@ -1,0 +1,19 @@
+---
+
+# App
+app: "sully"
+branch: "master"
+default_locale: "fr"
+
+# db name
+db_name: "sc_{{app}}"
+db_username: "postgres"
+db_password: "{{db_password}}"
+
+# path files
+app_path: "/home/web/schoolmg.app/apps/symfony/{{branch}}/{{app}}"
+skeleton_path: "/home/web/schoolmg.app/apps/symfony/skeleton/{{branch}}"
+skeleton_src_path: "/home/web/schoolmg.app/skeleton_src/{{branch}}-symfony"
+
+# Analytics
+matomo_id: "999999"

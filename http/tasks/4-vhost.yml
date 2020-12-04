@@ -1,0 +1,28 @@
+---
+
+tasks:
+  # Create vhosts
+  - name: "Create vhost"
+    template:
+      src: "app_dev/http/templates/vhost.conf.j2"   
+      dest: "/etc/apache2/sites-available/{{app}}.schoolmg.app.conf" 
+    notify: "apache2 reload"
+    
+  # Enable
+  - name: "a2ensite" 
+    shell: |
+      a2ensite {{app}}.schoolmg.app.conf
+    notify: "apache2 reload"   
+
+
+# handlers file for apache
+handlers:
+  - name: "apache2 restart"
+    service:
+      name: "apache2"
+      state: "restarted"
+
+  - name: "apache2 reload"
+    service:
+      name: "apache2"
+      state: "reloaded"     

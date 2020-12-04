@@ -1,0 +1,89 @@
+---
+
+# Changes in .env.local 
+- name: "creation .env.local"
+  copy:
+    src: "{{skeleton_src_path}}/.env"
+    dest: "{{app_path}}/.env.local"
+    owner: "web"
+    group: "web"
+    remote_src: yes
+
+- name: "replace db_name .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    regexp: '\/db_name'
+    replace: '/{{db_name}}'
+
+- name: "replace postgres:5432 .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    regexp: 'postgres:5432'
+    replace: 'localhost:5432'    
+
+- name: "replace db_password .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    regexp: '\:secret@'
+    replace: ':{{db_password}}@' 
+
+- name: "replace postgresql://postgres .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    regexp: 'DATABASE_URL=postgresql\:\/\/postgres'
+    replace: 'DATABASE_URL=postgresql://madatsara'
+
+- name: "replace POSTGRES_DATABASE_URL=postgresql://madatsara .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    regexp: 'POSTGRES_DATABASE_URL=postgresql\:\/\/madatsara'
+    replace: 'POSTGRES_DATABASE_URL=postgresql://postgres'
+
+# Old value
+- name: "replace 127.0.0.1:3306 .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    regexp: '127\.0\.0\.1:3306'
+    replace: 'localhost:5432'    
+
+- name: "replace db_password .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    regexp: '\:db_password@'
+    replace: ':{{db_password}}@' 
+
+- name: "replace mysql://db_user .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    regexp: 'DATABASE_URL=mysql\:\/\/db_user'
+    replace: 'DATABASE_URL=postgresql://madatsara'
+
+- name: "replace POSTGRES_DATABASE_URL=mysql://madatsara .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    regexp: 'POSTGRES_DATABASE_URL=postgresql\:\/\/madatsara'
+    replace: 'POSTGRES_DATABASE_URL=postgresql://postgres'    
+
+- name: "replace after APP_PATH .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    after: 'APP_PATH='
+    before: '\n'
+    regexp: '^.*[^\n]*'
+    replace: '{{app_path}}'   
+
+- name: "replace DEFAULT_LOCALE= .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    after: 'DEFAULT_LOCALE='
+    before: '\n'
+    regexp: '^.*[^\n]*'
+    replace: '{{default_locale}}'  
+
+- name: "replace MATOMO_ID= .env.local"
+  replace:
+    path: "{{app_path}}/.env.local"
+    after: 'MATOMO_ID='
+    before: '\n'
+    regexp: '^.*[^\n]*'
+    replace: '{{matomo_id}}'    
